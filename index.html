@@ -147,9 +147,54 @@
     }
 
             document.getElementById('timer').innerText = '亲爱的老婆，你已经存在了' + years + '年' + months + '月' + days + '天' + hours + '小时' + mins + '分' + secs + '秒';
+            if ( months == 0 && days == 0 && hours == 0 && mins == 0 && secs == 0) {
+                triggerFireworks();
+                console.log("0000")
+            }
         }
 
         setInterval(updateTimer, 1000);
+
+        var fireworks = [];
+        var canvas = document.getElementById('pinkboard');
+        function triggerFireworks() {
+            for (var i = 0; i < 100; i++) {
+                fireworks.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 4,  // Reduced speed
+                    vy: Math.random() * -4,  // Only upward direction
+                    size: Math.random() * 5 + 1,
+                    alpha: 1
+                });
+            }
+        }
+
+
+        function updateFireworks(deltaTime) {
+            for (var i = 0; i < fireworks.length; i++) {
+                var f = fireworks[i];
+                f.x += f.vx;
+                f.y += f.vy;
+                f.alpha -= deltaTime * 0.005;
+                if (f.alpha <= 0) {
+                    fireworks.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        function drawFireworks(context) {
+            context.fillStyle = "#FFC0CB"; // 使用之前给的粉色
+            for (var i = 0; i < fireworks.length; i++) {
+                var f = fireworks[i];
+                console.log("Drawing firework:", f);
+                context.globalAlpha = f.alpha;
+                context.beginPath();
+                context.arc(f.x, f.y, f.size, 0, 2 * Math.PI);
+                context.fill();
+            }
+        }
 
         var settings = {
             particles: {
@@ -364,6 +409,8 @@
 
                 context.clearRect(0, 0, canvas.width, canvas.height);
 
+                updateFireworks(deltaTime);
+                drawFireworks(context);
 
                 var amount = particleRate * deltaTime;
                 for (var i = 0; i < amount; i++) {
