@@ -48,8 +48,13 @@
             .title {
                 width: 60%;
                 font-size: 25px; 
-                top: 58vh;
+                top: 50vh;
                 transform: translateY(-50%);
+            }
+            canvas {
+                max-width: 100%;  /* 限制最大宽度为屏幕的95% */
+                display: block;  /* 使canvas成为块级元素，以便使用margin auto进行居中 */
+                margin: 0 auto;  /* 水平居中 */
             }
         } 
 
@@ -289,12 +294,29 @@
                 time;
 
 
+            var heartWidth = 160;
+            var heartHeight = 130;
+
+            if (window.innerWidth <= 768) {
+                heartWidth = 120;  // 这里是您想要的移动端的宽度值
+                heartHeight = 90; // 这里是您想要的移动端的高度值
+            }
+
+
+            // function pointOnHeart(t) {
+            //     return new Point(
+            //         160 * Math.pow(Math.sin(t), 3),
+            //         130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
+            //     );
+            // }
             function pointOnHeart(t) {
                 return new Point(
-                    160 * Math.pow(Math.sin(t), 3),
-                    130 * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
+                    heartWidth * Math.pow(Math.sin(t), 3),
+                    // heartHeight * Math.cos(t) - 50 * Math.cos(2 * t) - 20 * Math.cos(3 * t) - 10 * Math.cos(4 * t) + 25
+                    heartHeight * Math.cos(t) - (heartHeight / 130) * 50 * Math.cos(2 * t) - (heartHeight / 130) * 20 * Math.cos(3 * t) - (heartHeight / 130) * 10 * Math.cos(4 * t) + 25
                 );
             }
+
 
 
             var image = (function () {
