@@ -391,6 +391,9 @@
 
 
             function o(e) {
+                if (e.touches) {
+                    e = e.touches[0];
+                }
                 var a = t.createElement("div");
                 a.className = "heart", s.push({
                     el: a,
