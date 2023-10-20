@@ -43,6 +43,12 @@
             /* 字体 */
             font-family: "幼圆";
         }
+        @media (max-width: 768px) {
+            .title {
+                top: 45%;  /* 调整这个值来使得文字在移动端更加居中 */
+            }
+        }
+
     </style>
 
 </head>
@@ -369,12 +375,20 @@
                 requestAnimationFrame(r)
             }
 
+            // function n() {
+            //     var t = "function" == typeof e.onclick && e.onclick;
+            //     e.onclick = function (e) {
+            //         t && t(), o(e)
+            //     }
+            // }
             function n() {
-                var t = "function" == typeof e.onclick && e.onclick;
-                e.onclick = function (e) {
-                    t && t(), o(e)
+                if ('ontouchstart' in window) {
+                    document.addEventListener('touchstart', o);
+                } else {
+                    document.addEventListener('click', o);
                 }
             }
+
 
             function o(e) {
                 var a = t.createElement("div");
